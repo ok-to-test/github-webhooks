@@ -1,11 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"gopkg.in/go-playground/webhooks.v5/github"
 	"log"
 	"net/http"
 	"os"
-	"fmt"
 )
 
 const (
@@ -20,19 +20,17 @@ func main() {
 	http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		payload, err := hook.Parse(r, github.ReleaseEvent, github.PullRequestEvent)
 		if err != nil {
-				log.Fatal(err)
-			}
+			log.Fatal(err)
+		}
 
 		switch payload.(type) {
 
 		case github.ReleasePayload:
 			release := payload.(github.ReleasePayload)
-			// Do whatever you want from here...
 			log.Printf("%+v", release)
 
 		case github.PullRequestPayload:
 			pullRequest := payload.(github.PullRequestPayload)
-			// Do whatever you want from here...
 			log.Printf("%+v", pullRequest)
 
 		default:
